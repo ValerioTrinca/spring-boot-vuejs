@@ -5,7 +5,6 @@ import de.jonashackt.springbootvuejs.exception.UserNotFoundException;
 import de.jonashackt.springbootvuejs.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +18,11 @@ public class BackendController {
     public static final String HELLO_TEXT = "Hello from Spring Boot Backend!";
     public static final String SECURED_TEXT = "Hello from the secured resource!";
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public BackendController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @ResponseBody
     @RequestMapping(path = "/hello")
