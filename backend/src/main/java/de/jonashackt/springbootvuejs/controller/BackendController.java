@@ -3,6 +3,7 @@ package de.jonashackt.springbootvuejs.controller;
 import de.jonashackt.springbootvuejs.domain.User;
 import de.jonashackt.springbootvuejs.exception.UserNotFoundException;
 import de.jonashackt.springbootvuejs.repository.UserRepository;
+import de.jonashackt.springbootvuejs.service.log.LogFormatterService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -20,14 +21,17 @@ public class BackendController {
 
     private final UserRepository userRepository;
 
-    public BackendController(UserRepository userRepository) {
+    private final LogFormatterService logFormatterService;
+
+    public BackendController(UserRepository userRepository, LogFormatterService logFormatterService) {
         this.userRepository = userRepository;
+        this.logFormatterService = logFormatterService;
     }
 
     @ResponseBody
     @RequestMapping(path = "/hello")
     public String sayHello() {
-        LOG.info("GET called on /hello resource");
+        LOG.info(this.logFormatterService.getCalledLog("/hello"));
         return HELLO_TEXT;
     }
 
